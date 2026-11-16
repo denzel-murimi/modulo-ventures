@@ -1,1231 +1,617 @@
 <!DOCTYPE html>
-<!--
-╔══════════════════════════════════════════════════════════════════════╗
-║  MODULO VENTURES LIMITED — Enhanced Home Page                       ║
-║  Aesthetic: Industrial-Precision / Corporate Authority              ║
-║                                                                      ║
-║  ENHANCEMENT SUMMARY vs. original code:                             ║
-║  ─────────────────────────────────────────────────────────────────  ║
-║  [NAV]      Added skip-to-content link, ARIA roles, mobile          ║
-║             hamburger with focus-trap, logo SVG mark                ║
-║  [HERO]     Geometric animated grid background, animated stat       ║
-║             counters, staggered entrance keyframes                  ║
-║  [TRUST]    New trust-bar section: logos / badges strip             ║
-║  [SERVICES] Full capabilities grid — icon + description cards       ║
-║  [ABOUT]    Two-column about section with metric highlights         ║
-║  [PROCESS]  Numbered step-by-step supply-chain process              ║
-║  [CONTACT]  Functional-ready form with ARIA labels + validation UI  ║
-║  [FOOTER]   Rich footer with social links, sitemap, legal           ║
-║  [SEO]      Meta description, OG tags, JSON-LD Organization schema  ║
-║  [A11Y]     Skip link, ARIA landmarks, focus rings, reduced-motion  ║
-║  [PERF]     Font preconnect, font-display:swap, defer scripts       ║
-║  [DESIGN]   CSS custom properties, responsive fluid type,           ║
-║             geometric accent shapes, smooth scroll, CSS animations  ║
-╚══════════════════════════════════════════════════════════════════════╝
--->
-<html lang="en">
+<html lang="en-KE">
 <head>
-
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 1: META / SEO
-       Enhancement: Added meta description, Open Graph tags,
-       Twitter card, canonical URL, and JSON-LD structured data
-       for richer search engine representation.
-       ═══════════════════════════════════════════════════════ -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Modulo Ventures Limited | Precision Electronic Supply & ICT Logistics Kenya</title>
-  <link rel="icon" type="image/png" href="favicon.png">
-  <meta name="description"
-        content="Modulo Ventures Limited supplies verified, high-performance electronic hardware and ICT equipment to Kenyan enterprises and government sectors. LPO-compliant, fast delivery." />
-  <meta name="keywords"
-        content="electronic supply Kenya, ICT logistics Nairobi, LPO hardware, government ICT procurement, enterprise electronics Kenya" />
-  <link rel="canonical" href="https://www.moduloventures.co.ke/" />
-  
-
-  <!-- Open Graph (Facebook, LinkedIn previews) -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://www.moduloventures.co.ke/" />
-  <meta property="og:title"       content="Modulo Ventures Limited | Precision Electronic Supply" />
-  <meta property="og:description" content="Empowering Kenyan enterprises and government sectors with verified, high-performance hardware — fully LPO-compliant." />
-  <meta property="og:image"       content="https://www.moduloventures.co.ke/favicon.png" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="Modulo Ventures Limited" />
-  <meta name="twitter:description" content="Precision Electronic Supply & ICT Logistics in Kenya." />
-
-  <!-- JSON-LD: Organization structured data for Google Knowledge Panel -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Modulo Ventures Limited",
-    "url": "https://www.moduloventures.co.ke",
-    "logo": "https://www.moduloventures.co.ke/logo.png",
-    "description": "Precision electronic supply and ICT logistics for Kenyan enterprises and government sectors.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Nairobi",
-      "addressCountry": "KE"
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "sales",
-      "email": "info@moduloventures.co.ke"
-    }
-  }
-  </script>
-
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 2: FONTS & PERFORMANCE
-       Enhancement: Preconnect to Google Fonts CDN before
-       fetching so DNS is resolved early. font-display:swap
-       prevents invisible text during font load (FOIT fix).
-       Chosen fonts: "Barlow Condensed" (display/headings) +
-       "DM Sans" (body) — industrial, precise, not overused.
-       ═══════════════════════════════════════════════════════ -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"
-        rel="stylesheet" />
-
-  <!-- Tailwind CDN (same as original, kept for consistency) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            /* Original brand colors preserved exactly */
-            corporate: '#0f172a',
-            accent:    '#10b981',
-            /* New tonal additions for depth */
-            'corporate-mid':  '#1e293b',
-            'corporate-soft': '#334155',
-            'accent-dark':    '#059669',
-            'accent-light':   '#d1fae5',
-          },
-          fontFamily: {
-            /* Override Tailwind defaults with chosen font pairing */
-            sans:    ['"DM Sans"', 'sans-serif'],
-            display: ['"Barlow Condensed"', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 3: GLOBAL CSS — Custom properties, animations,
-       utility overrides. All animations respect prefers-
-       reduced-motion for accessibility compliance.
-       ═══════════════════════════════════════════════════════ -->
-  <style>
-    /* ── CSS Custom Properties ─────────────────────────────
-       Single source of truth for brand colours & spacing.
-       Makes theming a 1-line change per variable.          */
-    :root {
-      --c-dark:       #0f172a;
-      --c-mid:        #1e293b;
-      --c-soft:       #334155;
-      --c-accent:     #10b981;
-      --c-accent-d:   #059669;
-      --c-accent-l:   #d1fae5;
-      --c-text:       #f8fafc;
-      --c-muted:      #94a3b8;
-      --radius:       6px;
-      --transition:   220ms cubic-bezier(.4,0,.2,1);
-    }
-
-    /* ── Smooth scroll (native, no JS needed) ───────────── */
-    html { scroll-behavior: smooth; }
-
-    /* ── Skip-to-content (accessibility) ───────────────────
-       Visually hidden until focused by keyboard navigation.
-       Critical for screen reader / keyboard-only users.    */
-    .skip-link {
-      position: absolute;
-      top: -100%;
-      left: 1rem;
-      background: var(--c-accent);
-      color: #000;
-      padding: .5rem 1rem;
-      border-radius: 0 0 var(--radius) var(--radius);
-      font-weight: 700;
-      z-index: 9999;
-      transition: top .2s;
-    }
-    .skip-link:focus { top: 0; }
-
-    /* ── Focus rings — visible, high-contrast ───────────── */
-    *:focus-visible {
-      outline: 3px solid var(--c-accent);
-      outline-offset: 3px;
-    }
-
-    /* ── Typography — fluid display headings ────────────── */
-    .font-display { font-family: 'Barlow Condensed', sans-serif; }
-
-    /* ── Animated geometric grid (hero background) ─────── */
-    .hero-grid {
-  background-image:
-    linear-gradient(rgba(16,185,129,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16,185,129,.035) 1px, transparent 1px);
-  background-size: 64px 64px;
-  opacity: 0.6;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modulo Ventures Limited | ICT Equipment Supply & Installation, Nairobi</title>
+<meta name="description" content="Modulo Ventures supplies, installs and supports computers, networking, power backup and security equipment for Kenyan offices, schools and public bodies. AGPO-certified, youth-owned, Nairobi-based.">
+<link rel="canonical" href="https://www.moduloventures.co.ke/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Modulo Ventures Limited | ICT Equipment Supply & Installation">
+<meta property="og:description" content="Computers, networking, power and security equipment, supplied through authorised channels, installed and supported. Send us your list for a quote.">
+<meta property="og:url" content="https://www.moduloventures.co.ke/">
+<meta property="og:image" content="https://www.moduloventures.co.ke/logo.png">
+<meta property="og:image:alt" content="Modulo Ventures logo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.moduloventures.co.ke/logo.png">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Modulo Ventures Limited",
+  "url": "https://www.moduloventures.co.ke/",
+  "logo": "https://www.moduloventures.co.ke/logo.png",
+  "email": "info@moduloventures.co.ke",
+  "telephone": "+254729110469",
+  "address": { "@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE" },
+  "description": "Supply, installation and support of ICT equipment for Kenyan organisations."
 }
-
-    /* ── Entrance animation keyframes ───────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(32px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes slideRight {
-      from { opacity: 0; transform: translateX(-24px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes pulse-border {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,.4); }
-      50%       { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
-    }
-
-    /* Staggered entrance classes */
-    .anim-1 { animation: fadeUp .7s ease both;             }
-    .anim-2 { animation: fadeUp .7s ease .12s both;        }
-    .anim-3 { animation: fadeUp .7s ease .24s both;        }
-    .anim-4 { animation: fadeUp .7s ease .36s both;        }
-    .anim-5 { animation: fadeIn .8s ease .5s  both;        }
-
-    /* ── Respect reduced-motion preference (WCAG 2.1) ───── */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-      html { scroll-behavior: auto; }
-    }
-
-    /* ── Nav link underline grow effect ─────────────────── */
-    .nav-link {
-      position: relative;
-      padding-bottom: 3px;
-    }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 0; height: 2px;
-      background: var(--c-accent);
-      transition: width var(--transition);
-    }
-    .nav-link:hover::after,
-    .nav-link[aria-current="page"]::after { width: 100%; }
-
-    /* ── Service card hover lift ─────────────────────────── */
-    .service-card {
-      transition: transform var(--transition), box-shadow var(--transition);
-    }
-    .service-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 48px -12px rgba(0,0,0,.35);
-    }
-
-    /* ── Diagonal section divider ────────────────────────── */
-    .clip-diagonal {
-  clip-path: polygon(0 0, 100% 0, 100% 94%, 0 100%);
-  padding-bottom: 8rem;
-}
-    /* ── Stat counter (desktop only) ─────────────────────── */
-    .stat-card {
-      border-top: 3px solid var(--c-accent);
-      animation: fadeUp .8s ease both;
-    }
-
-    /* ── CTA primary button pulse ────────────────────────── */
-    .btn-primary { animation: pulse-border 2.8s ease infinite; }
-    .btn-primary:hover { animation: none; }
-
-    /* ── Process step connector line ─────────────────────── */
-    .step-connector::after {
-      content: '';
-      position: absolute;
-      top: 28px; left: 100%;
-      width: 100%; height: 2px;
-      background: linear-gradient(90deg, var(--c-accent), transparent);
-    }
-
-    /* ── Mobile menu slide-in ────────────────────────────── */
-    #mobile-menu {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .4s cubic-bezier(.4,0,.2,1);
-    }
-    #mobile-menu.open { max-height: 400px; }
-
-    /* ── Form input focus ring ───────────────────────────── */
-    .form-input:focus {
-      border-color: var(--c-accent);
-      box-shadow: 0 0 0 3px rgba(16,185,129,.2);
-      outline: none;
-    }
-
-    /* ── Scrollbar (aesthetic, optional) ─────────────────── */
-    ::-webkit-scrollbar        { width: 6px; }
-    ::-webkit-scrollbar-track  { background: var(--c-dark); }
-    ::-webkit-scrollbar-thumb  { background: var(--c-accent); border-radius: 3px; }
-  </style>
-
-</head>
-
-<!-- ═══════════════════════════════════════════════════════════
-     BODY — role="document" implicit, base styles applied
-     ════════════════════════════════════════════════════════ -->
-<body class="bg-gray-50 text-gray-800 antialiased" style="font-family:'DM Sans',sans-serif;">
-
-  <!-- ── Skip to content (accessibility, WCAG 2.4.1) ─────── -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 4: NAVIGATION
-       Enhancements vs. original:
-       ✦ Semantic <nav> with ARIA label
-       ✦ SVG brand mark beside text logo
-       ✦ Nav link hover underline animation
-       ✦ Accessible mobile hamburger menu
-         – aria-expanded toggled by JS
-         – Focus-trap when open
-         – Closes on Escape key
-       ✦ Sticky with backdrop-blur (glassmorphism)
-       ═══════════════════════════════════════════════════════ -->
- <nav role="navigation"
-     aria-label="Main navigation"
-class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-
-    <!-- Logo + Brand -->
-    <a href="/"
-       class="flex items-center gap-4 group"
-       aria-label="Modulo Ventures — Home">
-
-      <!-- Logo -->
-      <img 
-        src="logo.png" 
-        alt="Modulo Ventures Logo"
-        class="h-16 md:h-20 lg:h-24 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-      />
-
-      <!-- Brand Text -->
-      <div class="flex flex-col leading-tight">
-        <span class="text-lg md:text-xl font-extrabold tracking-widest text-gray-900 transition-colors duration-300 group-hover:text-emerald-600">
-          MODULO VENTURES
-        </span>
-        <span class="text-xs md:text-sm uppercase tracking-[0.2em] text-emerald-500">
-          Precision Supply & ICT Logistics
-        </span>
-      </div>
-    </a>
-
-    <!-- Desktop Navigation -->
-    <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide text-gray-700">
-      <a href="#" class="hover:text-emerald-600 transition-colors">Home</a>
-      <a href="#about" class="hover:text-emerald-600 transition-colors">About</a>
-      <a href="#services" class="hover:text-emerald-600 transition-colors">Capabilities</a>
-      <a href="#process" class="hover:text-emerald-600 transition-colors">Process</a>
-      <a href="#contact" class="hover:text-emerald-600 transition-colors">Contact</a>
-    </div>
-
-    <!-- Desktop CTA -->
-    <a href="#contact"
-       class="hidden md:inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg">
-      
-      <!-- Icon -->
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="4" width="20" height="16" rx="2"/>
-        <path d="m2 7 10 7 10-7"/>
-      </svg>
-
-      Request LPO Quote
-    </a>
-
-   <button id="menu-toggle"
-              class="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none"
-              aria-expanded="false"
-              aria-controls="mobile-menu"
-              aria-label="Toggle navigation">
-        <span id="bar1" class="block w-6 h-0.5 bg-gray-800 mb-1.5 transition-all duration-300"></span>
-        <span id="bar2" class="block w-6 h-0.5 bg-gray-800 mb-1.5 transition-all duration-300"></span>
-        <span id="bar3" class="block w-6 h-0.5 bg-gray-800 transition-all duration-300"></span>
-      </button>
-
-    </div>
-
-    <div id="mobile-menu"
-         class="md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 z-50">
-      
-      <div class="px-6 py-6 flex flex-col gap-5 text-gray-700 text-sm font-medium">
-        <a href="#" class="hover:text-emerald-600 transition-colors">Home</a>
-        <a href="#about" class="hover:text-emerald-600 transition-colors">About</a>
-        <a href="#services" class="hover:text-emerald-600 transition-colors">Capabilities</a>
-        <a href="#process" class="hover:text-emerald-600 transition-colors">Process</a>
-        <a href="#contact" class="hover:text-emerald-600 transition-colors">Contact</a>
-
-        <a href="#contact"
-           class="mt-4 bg-emerald-500 hover:bg-emerald-600 text-white text-center px-6 py-3 rounded-lg font-semibold transition-all">
-          Request LPO Quote
-        </a>
-      </div>
-
-    </div>
-</nav>
-
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 5: HERO
-       Enhancements vs. original:
-       ✦ Dark brand background instead of plain white
-         — More authoritative for B2B / government clients
-       ✦ Animated geometric grid overlay (CSS only)
-       ✦ Accent diagonal shape for visual depth
-       ✦ Staggered entrance animations on all elements
-       ✦ Badge (social proof) above headline
-       ✦ Keyboard-friendly CTA buttons with focus rings
-       ✦ Stat counters strip below CTAs
-       ═══════════════════════════════════════════════════════ -->
-  <main id="main-content">
-
-    <header class="relative overflow-hidden clip-diagonal text-white"
-        style="background: linear-gradient(135deg, #0f172a 60%, #1e293b 100%);">
-
-      <!-- Geometric grid background (CSS, no image request) -->
-      <div class="hero-grid absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-
-      <!-- Decorative accent circle ──────────────────────── -->
-      <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-10 pointer-events-none"
-           style="background: radial-gradient(circle, #10b981, transparent 70%);" aria-hidden="true"></div>
-      <div class="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-5 pointer-events-none"
-           style="background: radial-gradient(circle, #10b981, transparent 70%);" aria-hidden="true"></div>
-
-      <div class="relative max-w-7xl mx-auto px-6 pt-24 pb-20 text-center">
-
-        <!-- Trust badge ───────────────────────────────────
-             Enhancement: Adds social proof above headline
-             — immediately signals legitimacy to gov buyers -->
-        <div class="anim-1 inline-flex items-center gap-2 bg-accent/10 border border-accent/30 text-accent px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-8"
-             style="color:#10b981; border-color:rgba(16,185,129,.3); background:rgba(16,185,129,.1);">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-          </svg>
-          Certified · LPO-Compliant · Kenya-Based
-        </div>
-
-        <!-- Headline ──────────────────────────────────────
-             Enhancement: Larger, font-display (Barlow Condensed)
-             creates powerful typographic hierarchy. Line-height
-             tightened for condensed display style.            -->
-        <h1 class="anim-2 font-display font-semibold leading-tight mb-8"
-            style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(3rem,8vw,6rem); font-weight:800; letter-spacing:-.01em;">
-          Precision Electronic<br/>
-          <span style="color:#10b981;">Supply &amp; ICT</span><br/>
-          Logistics
-        </h1>
-
-        <!-- Sub-headline ──────────────────────────────────
-             Enhancement: Slightly wider max-width and better
-             leading for comfortable reading at large sizes.   -->
-        <p class="anim-3 text-lg md:text-xl leading-relaxed mb-10 max-w-2xl text-center mx-auto"
-           style="color:#94a3b8;">
-          Empowering Kenyan enterprises and government sectors with
-          <strong style="color:#f8fafc; font-weight:500;">verified, high-performance hardware.</strong>
-          Fully compliant, reliably sourced, and tailored to exact LPO specifications.
-        </p>
-
-        <!-- CTA group ────────────────────────────────────
-             Enhancement: Two clear CTAs — primary (filled)
-             and secondary (outlined). Spacing adjusted for
-             mobile stacking. Icons added for scannability.   -->
-        <div class="anim-4 flex flex-col sm:flex-row gap-4 mb-16 text-center justify-center">
-          <a href="#contact"
-             class="inline-flex items-center justify-center gap-2 btn-primary bg-accent text-white px-8 py-4 rounded font-semibold text-base shadow-xl transition-colors duration-200 hover:bg-accent-dark"
-             style="background:#10b981; font-family:'DM Sans',sans-serif;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-              <polyline points="14,2 14,8 20,8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-            </svg>
-            Request LPO Quote
-          </a>
-          <a href="#services"
-             class="inline-flex items-center justify-center gap-2 border-2 text-white px-8 py-4 rounded font-semibold text-base transition-all duration-200 hover:bg-white/10"
-             style="border-color:rgba(248,250,252,.3);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-            </svg>
-            Explore Capabilities
-          </a>
-        </div>
-
-        <!-- Stats strip ───────────────────────────────────
-             Enhancement: Quantified trust signals positioned
-             above fold to immediately reassure gov/enterprise
-             procurement officers.                            -->
-        <div class="anim-5 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="stat-card bg-white/5 backdrop-blur rounded-lg p-5 border-t-2 border-accent"
-               style="border-color:#10b981;">
-            <div class="font-display text-3xl font-800 text-white" style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:800;">500+</div>
-            <div class="text-xs mt-1 uppercase tracking-widest" style="color:#94a3b8;">Orders Fulfilled</div>
-          </div>
-          <div class="stat-card bg-white/5 backdrop-blur rounded-lg p-5" style="animation-delay:.1s; border-top:2px solid #10b981;">
-            <div class="font-display text-3xl font-800 text-white" style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:800;">48 hrs</div>
-            <div class="text-xs mt-1 uppercase tracking-widest" style="color:#94a3b8;">Avg. Delivery Time</div>
-          </div>
-          <div class="stat-card bg-white/5 backdrop-blur rounded-lg p-5" style="animation-delay:.2s; border-top:2px solid #10b981;">
-            <div class="font-display text-3xl font-800 text-white" style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:800;">100%</div>
-            <div class="text-xs mt-1 uppercase tracking-widest" style="color:#94a3b8;">LPO Compliance</div>
-          </div>
-          <div class="stat-card bg-white/5 backdrop-blur rounded-lg p-5" style="animation-delay:.3s; border-top:2px solid #10b981;">
-            <div class="font-display text-3xl font-800 text-white" style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:800;">30+</div>
-            <div class="text-xs mt-1 uppercase tracking-widest" style="color:#94a3b8;">Government Clients</div>
-          </div>
-        </div>
-
-      </div>
-    </header>
-
-    <!-- ═══════════════════════════════════════════════════
-         SECTION 6: TRUST BAR
-         Enhancement: NEW — scrolling badge strip showing
-         vendor / compliance affiliations builds credibility
-         with procurement decision-makers immediately.
-         ════════════════════════════════════════════════ -->
-    <section aria-label="Our certifications and partnerships"
-             class="bg-white border-y border-gray-200 py-5 overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="flex items-center gap-4 flex-wrap justify-center md:justify-between">
-          <span class="text-xs font-semibold uppercase tracking-widest text-gray-400 shrink-0">Trusted &amp; Compliant</span>
-          <!-- Badge items — replace with real logo SVGs or <img> with width/height -->
-          <div class="flex flex-wrap items-center justify-center gap-8">
-            <div class="flex items-center gap-2 text-gray-500 text-sm font-semibold">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#10b981" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              KRA Registered
-            </div>
-            <div class="flex items-center gap-2 text-gray-500 text-sm font-semibold">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#10b981" aria-hidden="true"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
-              PPRA Compliant
-            </div>
-            <div class="flex items-center gap-2 text-gray-500 text-sm font-semibold">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#10b981" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-              Verified Suppliers
-            </div>
-            <div class="flex items-center gap-2 text-gray-500 text-sm font-semibold">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#10b981" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke="white" stroke-width="2"/></svg>
-              48-hr Turnaround
-            </div>
-            <div class="flex items-center gap-2 text-gray-500 text-sm font-semibold">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#10b981" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-              Nairobi HQ
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════
-         SECTION 7: CAPABILITIES / SERVICES
-         Enhancement: NEW full section — was absent in
-         original. Semantic <section> with ARIA label.
-         Icon cards with lift hover effect. 3-column
-         responsive grid (1 col mobile → 3 col desktop).
-         ════════════════════════════════════════════════ -->
-   <section id="services" aria-labelledby="services-heading"
-         class="py-28 px-6 bg-gradient-to-b from-gray-50 to-white">
-
-  <div class="max-w-7xl mx-auto">
-
-    <!-- Section Label -->
-    <div class="flex items-center gap-4 mb-6">
-      <span class="w-12 h-px bg-emerald-500"></span>
-      <span class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-500">
-        What We Do
-      </span>
-    </div>
-
-    <!-- Section Heading -->
-    <h2 id="services-heading"
-        class="font-display font-semibold text-gray-900 mb-6"
-        style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(2.2rem,4vw,3.2rem);">
-      Our Capabilities
-    </h2>
-
-    <p class="text-gray-600 max-w-2xl mb-20 text-lg leading-relaxed">
-      End-to-end electronic supply and ICT logistics designed for the demands of
-      government procurement, NGOs, and enterprise clients across Kenya.
-    </p>
-
-    <!-- Services Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      <!-- Card 1 -->
-      <article class="group bg-white rounded-2xl p-8 border border-gray-200
-                      transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-
-        <div class="w-14 h-14 rounded-xl bg-emerald-50
-                    flex items-center justify-center mb-6
-                    transition-colors duration-300 group-hover:bg-emerald-100">
-
-          <svg width="26" height="26" viewBox="0 0 24 24"
-               fill="none" stroke="#10b981" stroke-width="2">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-        </div>
-
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">
-          Computing Hardware
-        </h3>
-
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Laptops, desktops, workstations, and servers from verified OEM and tier-1
-          distributors. All units supplied with valid manufacturer warranties.
-        </p>
-      </article>
-
-      <!-- Card 2 -->
-      <article class="group bg-white rounded-2xl p-8 border border-gray-200
-                      transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-
-        <div class="w-14 h-14 rounded-xl bg-emerald-50
-                    flex items-center justify-center mb-6
-                    transition-colors duration-300 group-hover:bg-emerald-100">
-
-          <svg width="26" height="26" viewBox="0 0 24 24"
-               fill="none" stroke="#10b981" stroke-width="2">
-            <rect x="9" y="2" width="6" height="6"/>
-            <rect x="9" y="16" width="6" height="6"/>
-            <rect x="2" y="9" width="6" height="6"/>
-            <rect x="16" y="9" width="6" height="6"/>
-          </svg>
-        </div>
-
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">
-          Networking & Infrastructure
-        </h3>
-
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Routers, switches, access points, structured cabling, and rack systems —
-          fully configured for enterprise and institutional environments.
-        </p>
-      </article>
-
-      <!-- Card 3 -->
-      <article class="group bg-white rounded-2xl p-8 border border-gray-200
-                      transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-
-        <div class="w-14 h-14 rounded-xl bg-emerald-50
-                    flex items-center justify-center mb-6
-                    transition-colors duration-300 group-hover:bg-emerald-100">
-
-          <svg width="26" height="26" viewBox="0 0 24 24"
-               fill="none" stroke="#10b981" stroke-width="2">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-          </svg>
-        </div>
-
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">
-          Power Solutions
-        </h3>
-
-        <p class="text-gray-600 text-sm leading-relaxed">
-          UPS systems, stabilizers, and surge protection units —
-          engineered for Kenya’s power environment and scalable to any deployment.
-        </p>
-      </article>
-
-      <!-- Card 4 -->
-      <article class="group bg-white rounded-2xl p-8 border border-gray-200
-                      transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-
-        <div class="w-14 h-14 rounded-xl bg-emerald-50
-                    flex items-center justify-center mb-6
-                    transition-colors duration-300 group-hover:bg-emerald-100">
-
-          <svg width="26" height="26" viewBox="0 0 24 24"
-               fill="none" stroke="#10b981" stroke-width="2">
-            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
-          </svg>
-        </div>
-
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">
-          Peripherals & Accessories
-        </h3>
-
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Printers, scanners, monitors, projectors, and bulk institutional
-          accessory supply tailored for procurement teams.
-        </p>
-      </article>
-
-      <!-- Card 5 -->
-      <article class="group bg-white rounded-2xl p-8 border border-gray-200
-                      transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-
-        <div class="w-14 h-14 rounded-xl bg-emerald-50
-                    flex items-center justify-center mb-6
-                    transition-colors duration-300 group-hover:bg-emerald-100">
-
-          <svg width="26" height="26" viewBox="0 0 24 24"
-               fill="none" stroke="#10b981" stroke-width="2">
-            <rect x="3" y="4" width="18" height="16" rx="2"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-        </div>
-
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">
-          LPO Procurement Handling
-        </h3>
-
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Full-cycle LPO management — quotation, sourcing, delivery, invoicing,
-          and warranty documentation aligned with PPRA guidelines.
-        </p>
-      </article>
-
-      <!-- Card 6 -->
-      <article class="group bg-white rounded-2xl p-8 border border-gray-200
-                      transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-
-        <div class="w-14 h-14 rounded-xl bg-emerald-50
-                    flex items-center justify-center mb-6
-                    transition-colors duration-300 group-hover:bg-emerald-100">
-
-          <svg width="26" height="26" viewBox="0 0 24 24"
-               fill="none" stroke="#10b981" stroke-width="2">
-            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
-          </svg>
-        </div>
-
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">
-          After-Sales Support
-        </h3>
-
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Warranty processing, on-site technician deployment, and spare-parts
-          sourcing to ensure uninterrupted operations.
-        </p>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-    <!-- ═══════════════════════════════════════════════════
-         SECTION 8: ABOUT
-         Enhancement: NEW two-column section — text left,
-         metric highlights right. Diagonal accent strip.
-         ════════════════════════════════════════════════ -->
-    <section id="about" aria-labelledby="about-heading"
-             class="py-24 px-6 text-white"
-             style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);">
-      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-
-        <!-- Text column -->
-        <div>
-          <div class="flex items-center gap-3 mb-4">
-            <span class="w-10 h-px block" style="background:#10b981;"></span>
-            <span class="text-xs font-semibold uppercase tracking-widest" style="color:#10b981;">About Us</span>
-          </div>
-          <h2 id="about-heading"
-              class="font-display font-extrabold leading-none mb-6"
-              style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:800;">
-            Kenya's Trusted ICT Supply Partner
-          </h2>
-          <p class="leading-relaxed mb-4" style="color:#94a3b8;">
-            Modulo Ventures Limited was established to close the reliability gap in Kenya's ICT supply chain.
-            Too many institutions suffer delayed deliveries, counterfeit hardware, and non-compliant documentation.
-            We built our business around fixing exactly that.
-          </p>
-          <p class="leading-relaxed mb-8" style="color:#94a3b8;">
-            Operating from Nairobi with a nationwide logistics network, our team manages every step
-            from quotation to post-delivery support — giving procurement officers the certainty they need. 
-            Under the leadership of our directors, <strong>Peter Keith Karanja</strong>, <strong>Denzel Murimi Kahuthia</strong>, and <strong>Khachina Mweha</strong>, we navigate the complexities of the electronics supply chain with a rigorous focus on compliance, quality assurance, and seamless execution.
-          </p>
-          <a href="#contact"
-             class="inline-flex items-center gap-2 font-semibold text-sm"
-             style="color:#10b981;">
-            Get in touch with our directors
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-
-        <!-- Metric highlights column -->
-        <div class="grid grid-cols-2 gap-4">
-          <div class="rounded-xl p-6" style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);">
-            <div class="font-display font-800 mb-1" style="font-family:'Barlow Condensed',sans-serif; font-size:2.5rem; font-weight:800; color:#10b981;">8+</div>
-            <div class="text-sm" style="color:#94a3b8;">Years of Operation</div>
-          </div>
-          <div class="rounded-xl p-6" style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);">
-            <div class="font-display font-800 mb-1" style="font-family:'Barlow Condensed',sans-serif; font-size:2.5rem; font-weight:800; color:#10b981;">47</div>
-            <div class="text-sm" style="color:#94a3b8;">Counties Served</div>
-          </div>
-          <div class="rounded-xl p-6" style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);">
-            <div class="font-display font-800 mb-1" style="font-family:'Barlow Condensed',sans-serif; font-size:2.5rem; font-weight:800; color:#10b981;">5,000+</div>
-            <div class="text-sm" style="color:#94a3b8;">Units Deployed</div>
-          </div>
-          <div class="rounded-xl p-6" style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);">
-            <div class="font-display font-800 mb-1" style="font-family:'Barlow Condensed',sans-serif; font-size:2.5rem; font-weight:800; color:#10b981;">98%</div>
-            <div class="text-sm" style="color:#94a3b8;">Client Retention</div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════
-         SECTION 9: PROCESS
-         Enhancement: NEW step-by-step section showing
-         how an LPO order flows through Modulo Ventures.
-         Horizontal numbered steps, responsive (stacks
-         vertically on mobile). Builds confidence in the
-         procurement workflow.
-         ════════════════════════════════════════════════ -->
-    <section id="process" aria-labelledby="process-heading"
-             class="py-24 px-6 bg-white">
-      <div class="max-w-7xl mx-auto">
-
-        <div class="flex items-center gap-3 mb-4">
-          <span class="w-10 h-px block" style="background:#10b981;"></span>
-          <span class="text-xs font-semibold uppercase tracking-widest" style="color:#10b981;">How It Works</span>
-        </div>
-        <h2 id="process-heading"
-            class="font-display font-extrabold text-corporate mb-16"
-            style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(2rem,5vw,3.5rem); font-weight:800; color:#0f172a;">
-          Our Supply Process
-        </h2>
-
-        <ol class="grid grid-cols-1 md:grid-cols-4 gap-8 list-none" aria-label="Supply chain steps">
-          <!-- Step 1 -->
-          <li class="relative">
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-white text-lg shrink-0"
-                    style="background:#10b981; font-family:'Barlow Condensed',sans-serif; font-weight:800;">1</span>
-              <h3 class="font-semibold text-corporate text-base" style="color:#0f172a;">Receive LPO</h3>
-            </div>
-            <p class="text-sm text-gray-500 leading-relaxed">
-              We accept your Local Purchase Order via email or in person. All standard government LPO formats accepted.
-            </p>
-          </li>
-          <!-- Step 2 -->
-          <li class="relative">
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-white text-lg shrink-0"
-                    style="background:#10b981; font-family:'Barlow Condensed',sans-serif; font-weight:800;">2</span>
-              <h3 class="font-semibold text-corporate text-base" style="color:#0f172a;">Source &amp; Verify</h3>
-            </div>
-            <p class="text-sm text-gray-500 leading-relaxed">
-              We source from verified distributors only. Each unit passes a quality check before dispatch.
-            </p>
-          </li>
-          <!-- Step 3 -->
-          <li class="relative">
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-white text-lg shrink-0"
-                    style="background:#10b981; font-family:'Barlow Condensed',sans-serif; font-weight:800;">3</span>
-              <h3 class="font-semibold text-corporate text-base" style="color:#0f172a;">Deliver &amp; Install</h3>
-            </div>
-            <p class="text-sm text-gray-500 leading-relaxed">
-              Our logistics team delivers to your site nationwide. Installation and configuration available on request.
-            </p>
-          </li>
-          <!-- Step 4 -->
-          <li>
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-white text-lg shrink-0"
-                    style="background:#10b981; font-family:'Barlow Condensed',sans-serif; font-weight:800;">4</span>
-              <h3 class="font-semibold text-corporate text-base" style="color:#0f172a;">Invoice &amp; Support</h3>
-            </div>
-            <p class="text-sm text-gray-500 leading-relaxed">
-              Full documentation provided: invoice, delivery note, warranty cards. After-sales support included.
-            </p>
-          </li>
-        </ol>
-
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════
-         SECTION 10: CONTACT
-         Enhancement: Replaces original anchor-only CTA
-         with a full contact form. Uses semantic <form>,
-         ARIA labels on all inputs, visible error cues,
-         honeypot field to block basic spam bots.
-         ════════════════════════════════════════════════ -->
-    <section id="contact" aria-labelledby="contact-heading"
-             class="py-24 px-6 bg-gray-50">
-      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-start">
-
-        <!-- Contact info column -->
-        <div>
-          <div class="flex items-center gap-3 mb-4">
-            <span class="w-10 h-px block" style="background:#10b981;"></span>
-            <span class="text-xs font-semibold uppercase tracking-widest" style="color:#10b981;">Get In Touch</span>
-          </div>
-          <h2 id="contact-heading"
-              class="font-display font-extrabold text-corporate mb-6"
-              style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(2rem,5vw,3.5rem); font-weight:800; color:#0f172a;">
-            Request a Quote or<br/>Talk to Our Directors
-          </h2>
-          <p class="text-gray-500 leading-relaxed mb-10">
-            Whether you have an active LPO, an upcoming tender requirement, or simply want to establish a
-            supply relationship — we respond within 4 business hours.
-          </p>
-
-          <!-- Contact details list -->
-          <dl class="space-y-5">
-            <div class="flex items-start gap-4">
-              <dt class="sr-only">Email</dt>
-              <div class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(16,185,129,.1);">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" aria-hidden="true">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-                </svg>
-              </div>
-              <dd>
-                <p class="text-xs text-gray-400 uppercase tracking-wider mb-0.5">Email</p>
-                <a href="mailto:info@moduloventures.co.ke" class="text-corporate font-medium hover:text-accent transition-colors" style="color:#0f172a;">
-                  info@moduloventures.co.ke
-                </a>
-              </dd>
-            </div>
-            <div class="flex items-start gap-4">
-              <dt class="sr-only">Phone</dt>
-              <div class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(16,185,129,.1);">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" aria-hidden="true">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92v2z"/>
-                </svg>
-              </div>
-              <dd>
-                <p class="text-xs text-gray-400 uppercase tracking-wider mb-0.5">Phone</p>
-                <a href="tel:+254729110469" class="text-corporate font-medium hover:text-accent transition-colors" style="color:#0f172a;">
-                   0729110469
-                </a>
-              </dd>
-            </div>
-            <div class="flex items-start gap-4">
-              <dt class="sr-only">Location</dt>
-              <div class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(16,185,129,.1);">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" aria-hidden="true">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
-                </svg>
-              </div>
-              <dd>
-                <p class="text-xs text-gray-400 uppercase tracking-wider mb-0.5">Office</p>
-                <p class="text-corporate font-medium" style="color:#0f172a;">Ole Sangale Rd, Madaraka</p>
-              </dd>
-            </div>
-          </dl>
-        </div>
-
-        <!-- Form column -->
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-          <form id="quote-form" novalidate aria-label="Request a quote" action="https://formspree.io/f/mlgwzboq" method="POST">
-
-            <!-- Honeypot field: hidden from humans, traps bots -->
-            <div style="display:none;" aria-hidden="true">
-              <label for="website">Leave this blank</label>
-              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
-              <div>
-                <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1.5">
-                  First Name <span aria-hidden="true" style="color:#ef4444;">*</span>
-                  <span class="sr-only">(required)</span>
-                </label>
-                <input type="text" id="first-name" name="first_name" required
-                       autocomplete="given-name"
-                       class="form-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm transition-all duration-200"
-                       aria-required="true" />
-              </div>
-              <div>
-                <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1.5">
-                  Last Name <span aria-hidden="true" style="color:#ef4444;">*</span>
-                  <span class="sr-only">(required)</span>
-                </label>
-                <input type="text" id="last-name" name="last_name" required
-                       autocomplete="family-name"
-                       class="form-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm transition-all duration-200"
-                       aria-required="true" />
-              </div>
-            </div>
-
-            <div class="mb-5">
-              <label for="organisation" class="block text-sm font-medium text-gray-700 mb-1.5">
-                Organisation / Ministry
-              </label>
-              <input type="text" id="organisation" name="organisation"
-                     autocomplete="organization"
-                     class="form-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm transition-all duration-200" />
-            </div>
-
-            <div class="mb-5">
-              <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">
-                Email Address <span aria-hidden="true" style="color:#ef4444;">*</span>
-                <span class="sr-only">(required)</span>
-              </label>
-              <input type="email" id="email" name="email" required
-                     autocomplete="email"
-                     class="form-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm transition-all duration-200"
-                     aria-required="true" />
-            </div>
-
-            <div class="mb-5">
-              <label for="requirement-type" class="block text-sm font-medium text-gray-700 mb-1.5">
-                Requirement Type
-              </label>
-              <select id="requirement-type" name="requirement_type"
-                      class="form-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm transition-all duration-200 bg-white">
-                <option value="">Select…</option>
-                <option value="lpo">Active LPO Fulfilment</option>
-                <option value="tender">Upcoming Tender</option>
-                <option value="quote">General Quotation</option>
-                <option value="after-sales">After-Sales Support</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-
-            <div class="mb-6">
-              <label for="message" class="block text-sm font-medium text-gray-700 mb-1.5">
-                Message / Specifications
-              </label>
-              <textarea id="message" name="message" rows="4"
-                        placeholder="List the hardware items, quantities, and delivery timeline…"
-                        class="form-input w-full border border-gray-300 rounded-lg px-4 py-3 text-sm transition-all duration-200 resize-none"></textarea>
-            </div>
-
-            <button type="submit"
-                    class="w-full bg-corporate text-white py-4 rounded-lg font-semibold text-base transition-all duration-200 hover:opacity-90 shadow-lg"
-                    style="background:#0f172a;">
-              Send Quote Request
-            </button>
-
-            <p class="text-center text-xs text-gray-400 mt-4">
-              We respond within 4 business hours. Your information is never shared.
-            </p>
-          </form>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ═══════════════════════════════════════════════════
-       SECTION 11: FOOTER
-       Enhancement: Full multi-column footer with sitemap,
-       social links, legal copy, and business registration
-       number (important trust signal for gov clients).
-       ════════════════════════════════════════════════ -->
-  <footer class="text-white pt-16 pb-8 px-6" style="background:#0f172a;" role="contentinfo">
-    <div class="max-w-7xl mx-auto">
-
-      <!-- Footer columns grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-
-        <!-- Brand column -->
-        <div class="lg:col-span-2">
-          <div class="flex items-center gap-3 mb-4">
-            <!-- Reuse SVG brand mark -->
-<img 
-        src="logo.png" 
-        alt="Modulo Ventures Logo"
-        class="h-16 md:h-20 lg:h-24 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-      />            <span class="font-display font-bold text-lg" style="font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.08em;">
-              MODULO VENTURES LIMITED
-            </span>
-          </div>
-          <p class="text-sm leading-relaxed max-w-xs mb-6" style="color:#94a3b8;">
-            Kenya-based precision electronic supply and ICT logistics for Kenya's public and private sectors.
-          </p>
-          <!-- Social links -->
-          <div class="flex items-center gap-4">
-            <a href="#" aria-label="Follow Modulo Ventures on LinkedIn"
-               class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-accent"
-               style="background:rgba(255,255,255,.08);">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/>
-              </svg>
-            </a>
-            <a href="#" aria-label="Follow Modulo Ventures on Twitter / X"
-               class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-accent"
-               style="background:rgba(255,255,255,.08);">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Sitemap column -->
-        <nav aria-label="Footer navigation">
-          <h3 class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:#10b981;">Navigation</h3>
-          <ul class="space-y-2 text-sm" style="color:#94a3b8;">
-            <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
-            <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
-            <li><a href="#services" class="hover:text-white transition-colors">Capabilities</a></li>
-            <li><a href="#process" class="hover:text-white transition-colors">Our Process</a></li>
-            <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
-          </ul>
-        </nav>
-
-        <!-- Legal & registration column -->
-        <div>
-          <h3 class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:#10b981;">Compliance</h3>
-          <ul class="space-y-2 text-sm" style="color:#94a3b8;">
-            <li>Reg. No:  PVT-KW19VO59</li>
-            <li>KRA PIN:  P052513866M</li>
-            <li>PPRA Registered Supplier</li>
-            <li class="pt-2"><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Terms &amp; Conditions</a></li>
-          </ul>
-        </div>
-
-      </div>
-
-      <!-- Bottom bar -->
-      <div class="border-t pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs"
-           style="border-color:rgba(255,255,255,.1); color:#475569;">
-        <p>&copy; <span id="year"></span> Modulo Ventures Limited. All rights reserved.</p>
-        <p>Nairobi, Kenya · <a href="mailto:info@moduloventures.co.ke" class="hover:text-white transition-colors">info@moduloventures.co.ke</a></p>
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- ═══════════════════════════════════════════════════
-       SECTION 12: JAVASCRIPT
-       Enhancements:
-       ✦ Mobile menu toggle with ARIA state management
-       ✦ Escape key closes menu
-       ✦ Dynamic copyright year (never stale)
-       ✦ Minimal, dependency-free vanilla JS
-       ✦ defer-safe (runs after DOM parsed)
-       ════════════════════════════════════════════════ -->
-  <script>
-    /* ── Dynamic copyright year ──────────────────────────── */
-    const yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    /* ── Mobile hamburger menu ─────────────────────────────── */
-    const toggle   = document.getElementById('menu-toggle');
-    const menu     = document.getElementById('mobile-menu');
-    const bar1     = document.getElementById('bar1');
-    const bar2     = document.getElementById('bar2');
-    const bar3     = document.getElementById('bar3');
-    let   menuOpen = false;
-
-    function openMenu() {
-      menuOpen = true;
-      if (menu) menu.classList.add('open');
-      if (toggle) {
-        toggle.setAttribute('aria-expanded', 'true');
-        toggle.setAttribute('aria-label', 'Close navigation menu');
-      }
-      /* Animate bars to X */
-      if (bar1) bar1.style.transform = 'rotate(45deg) translate(5px, 5px)';
-      if (bar2) bar2.style.opacity   = '0';
-      if (bar3) bar3.style.transform = 'rotate(-45deg) translate(5px, -5px)';
-    }
-
-    function closeMenu() {
-      menuOpen = false;
-      if (menu) menu.classList.remove('open');
-      if (toggle) {
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.setAttribute('aria-label', 'Open navigation menu');
-      }
-      /* Reset bars */
-      if (bar1) bar1.style.transform = '';
-      if (bar2) bar2.style.opacity   = '1';
-      if (bar3) bar3.style.transform = '';
-    }
-
-    // Only add event listeners if the menu toggle exists
-    if (toggle) {
-      toggle.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
-    }
-
-    /* Close on Escape */
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && menuOpen) { closeMenu(); if (toggle) toggle.focus(); }
-    });
-
-    /* Close when a mobile link is clicked */
-    if (menu) {
-      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-    }
-
-    /* ── Form: AJAX Submission to Formspree ── */
-    const quoteForm = document.getElementById('quote-form');
-    // Only run the form script if the form actually exists on the page
-    if (quoteForm) {
-      quoteForm.addEventListener('submit', async function(e) {
-        e.preventDefault(); 
-        if (this.website && this.website.value) return; // Honeypot
-        
-        const btn = this.querySelector('button[type="submit"]');
-        btn.textContent  = 'Sending Request...';
-        btn.disabled     = true;
-        btn.style.opacity = '0.7';
-
-        try {
-          const response = await fetch(this.action, {
-            method: this.method,
-            body: new FormData(this),
-            headers: { 'Accept': 'application/json' }
-          });
-
-          if (response.ok) {
-            btn.textContent = '✓ Request Sent — We\'ll be in touch within 4 hrs';
-            btn.style.background = '#10b981';
-            btn.style.opacity = '1';
-            quoteForm.reset(); 
-          } else {
-            btn.textContent = 'Error: Please try again or use WhatsApp';
-            btn.style.background = '#ef4444'; 
-            btn.disabled = false;
-            btn.style.opacity = '1';
-          }
-        } catch (error) {
-          btn.textContent = 'Network Error: Please check your connection';
-          btn.disabled = false;
-          btn.style.opacity = '1';
-        }
-      });
-    }
 </script>
-<div class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 group flex items-center">
-    
-    <div class="absolute right-full mr-4 px-3 py-1.5 bg-gray-900 text-white text-xs font-semibold rounded shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" aria-hidden="true">
-      Chat with our Directors
-    </div>
+<style>
+:root{
+  --ink:#161B26;
+  --ink-2:#3A4352;
+  --muted:#5B6573;
+  --ground:#EEF1F4;
+  --panel:#FFFFFF;
+  --line:#D5DBE2;
+  --blue:#1D4ED8;
+  --blue-dark:#1740B0;
+  --tag:#F5C518;
+  --tag-dark:#D9AC0A;
+  --radius-s:4px;
+  --radius-m:10px;
+  --wrap:1180px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Archivo",system-ui,sans-serif;font-variation-settings:"wdth" 100;
+  font-size:17px;line-height:1.6;
+}
+img,svg{display:block}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:10px 14px;z-index:100}
+.skip:focus{left:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-    <a href="https://wa.me/254797884755?text=Hello%20Modulo%20Ventures,%20I%20am%20inquiring%20about%20an%20electronic%20supply%20LPO..." 
-       target="_blank" 
-       rel="noopener noreferrer"
-       aria-label="Contact us on WhatsApp"
-       class="flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/50">
-      
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-      </svg>
+/* Headline type: expanded Archivo carries the industrial voice */
+h1,h2,h3{font-variation-settings:"wdth" 118;line-height:1.08;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(2.3rem,5.2vw,4.1rem);font-weight:800}
+h2{font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:780}
+h3{font-size:1.15rem;font-weight:700;font-variation-settings:"wdth" 110}
+p{margin:0}
+.lede{font-size:1.15rem;color:var(--ink-2);max-width:34em}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  font:inherit;font-weight:650;font-size:1rem;text-decoration:none;cursor:pointer;
+  padding:.85em 1.4em;border-radius:var(--radius-s);border:2px solid transparent;
+  transition:background-color .15s,border-color .15s,color .15s;
+}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-dark)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:#fff}
+
+/* Header */
+.site-head{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.site-head .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+/* logo.png is a 2000x2000 canvas with the artwork at x199–1774, y618–1255; crop to that box */
+.brand-logo{position:relative;display:block;height:50px;aspect-ratio:1575/637;overflow:hidden}
+.brand-logo img{position:absolute;max-width:none;width:126.98%;height:auto;left:-12.635%;top:-97.02%}
+.nav{display:flex;align-items:center;gap:28px}
+.nav a{color:var(--ink);text-decoration:none;font-weight:550;font-size:.95rem}
+.nav a:hover{color:var(--blue)}
+.nav .btn{padding:.6em 1.1em;color:#fff}
+.nav .btn:hover{color:#fff}
+.menu-btn{display:none;background:none;border:0;padding:8px;cursor:pointer;color:var(--ink)}
+
+/* Hero */
+.hero{padding:72px 0 88px}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:start}
+.hero h1{margin-bottom:24px;max-width:13em}
+.hero .lede{margin-bottom:32px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px}
+.credentials{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0;list-style:none}
+.credentials li{
+  font-size:.9rem;font-weight:600;color:var(--ink-2);
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.35em .9em;
+}
+
+/* The requisition slip: the one bold element on the page */
+.slip{
+  position:relative;background:var(--tag);color:var(--ink);
+  border-radius:var(--radius-m);padding:34px 26px 26px;
+  box-shadow:0 1px 0 var(--tag-dark),0 18px 40px -18px rgba(22,27,38,.45);
+  transform:rotate(1.2deg);
+}
+.slip::before{ /* punched string hole */
+  content:"";position:absolute;top:14px;left:50%;width:14px;height:14px;margin-left:-7px;
+  border-radius:50%;background:var(--ground);box-shadow:inset 0 1px 2px rgba(0,0,0,.35);
+}
+@media (prefers-reduced-motion:no-preference){
+  .slip{animation:hang .9s cubic-bezier(.2,.9,.3,1.2) both .2s}
+  @keyframes hang{from{transform:translateY(-24px) rotate(-4deg);opacity:0}to{transform:rotate(1.2deg);opacity:1}}
+}
+.slip-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:6px}
+.slip-head h2{font-size:1.4rem}
+.slip-head p{font-size:.85rem;font-weight:600}
+.slip-list{list-style:none;margin:0;padding:0}
+.slip-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed rgba(22,27,38,.35)}
+.slip-row label{font-weight:600}
+.stepper{display:flex;align-items:center;gap:2px}
+.stepper button{
+  width:32px;height:32px;border:2px solid var(--ink);background:transparent;color:var(--ink);
+  font:inherit;font-size:1.1rem;font-weight:700;line-height:1;cursor:pointer;border-radius:var(--radius-s);
+}
+.stepper button:hover{background:var(--ink);color:var(--tag)}
+.stepper input{
+  width:48px;height:32px;text-align:center;border:0;background:transparent;
+  font:inherit;font-weight:750;font-variant-numeric:tabular-nums;color:var(--ink);
+  -moz-appearance:textfield;
+}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.slip-other{margin-top:14px}
+.slip-other label{display:block;font-size:.9rem;font-weight:600;margin-bottom:4px}
+.slip-other input{
+  width:100%;font:inherit;font-size:.95rem;padding:.55em .7em;border:2px solid var(--ink);
+  background:rgba(255,255,255,.55);border-radius:var(--radius-s);color:var(--ink);
+}
+.slip-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}
+.slip-count{font-weight:700;font-variant-numeric:tabular-nums}
+.slip .btn{background:var(--ink);color:#fff}
+.slip .btn:hover{background:var(--blue)}
+.slip-note{font-size:.82rem;margin-top:12px;color:var(--ink-2)}
+
+/* Sections */
+section{scroll-margin-top:80px}
+.band{padding:96px 0}
+.band-white{background:var(--panel)}
+.band-ink{background:var(--ink);color:#E6E9EE}
+.band-ink h2,.band-ink h3{color:#fff}
+.band-ink .lede{color:#B9C0CB}
+.section-head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:56px}
+.section-head .lede{justify-self:end}
+
+/* Catalogue rows */
+.catalogue{border-top:2px solid var(--ink);margin:0;padding:0;list-style:none}
+.cat-row{
+  display:grid;grid-template-columns:72px 1fr 1.6fr;gap:32px;align-items:start;
+  padding:28px 0;border-bottom:1px solid var(--line);
+}
+.cat-icon{width:44px;height:44px;color:var(--blue)}
+.cat-row h3{margin-top:8px}
+.cat-row p{color:var(--ink-2)}
+.cat-row .items{font-size:.95rem;color:var(--muted);margin-top:6px}
+
+/* Process: a genuine sequence, so it is numbered */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:0;padding:0;list-style:none;counter-reset:step}
+.step{position:relative;padding:0 28px 0 0}
+.step::before{
+  counter-increment:step;content:counter(step);
+  display:flex;align-items:center;justify-content:center;
+  width:52px;height:52px;border-radius:50%;background:var(--tag);color:var(--ink);
+  font-weight:800;font-size:1.3rem;font-variation-settings:"wdth" 120;margin-bottom:24px;position:relative;z-index:1;
+}
+.step::after{ /* the cable linking each step */
+  content:"";position:absolute;top:25px;left:52px;right:0;height:2px;background:#3A4352;
+}
+.step:last-child::after{display:none}
+.step h3{margin-bottom:10px}
+.step p{color:#B9C0CB;font-size:.98rem}
+
+/* Commitments */
+.commit{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin:0;border-top:2px solid var(--ink)}
+.commit div{padding:30px 32px 30px 0;border-bottom:1px solid var(--line)}
+.commit div:nth-child(odd){border-right:1px solid var(--line)}
+.commit div:nth-child(even){padding-left:32px}
+.commit dt{font-weight:750;font-size:1.15rem;font-variation-settings:"wdth" 112;margin-bottom:8px}
+.commit dd{margin:0;color:var(--ink-2)}
+
+/* Documents + company */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.docs{list-style:none;margin:24px 0 32px;padding:0}
+.docs li{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-weight:550}
+.docs svg{flex:none;color:var(--blue)}
+.company p+p{margin-top:16px}
+.company p{color:var(--ink-2)}
+.directors{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:10px}
+.directors li{background:var(--ground);border-radius:var(--radius-s);padding:14px 18px;font-weight:650}
+.directors li span{display:block;font-weight:450;font-size:.9rem;color:var(--muted)}
+
+/* Contact */
+.contact .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px}
+.contact-details{margin-top:28px;display:grid;gap:20px}
+.contact-details dt{font-size:.9rem;color:#B9C0CB}
+.contact-details dd{margin:2px 0 0;font-weight:650;font-size:1.1rem}
+.contact-details a{color:#fff;text-decoration-color:var(--tag);text-underline-offset:4px}
+form.quote{background:var(--panel);color:var(--ink);border-radius:var(--radius-m);padding:36px}
+.field{margin-bottom:18px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field label{display:block;font-weight:650;font-size:.95rem;margin-bottom:6px}
+.field .hint{font-weight:450;color:var(--muted)}
+.field input,.field select,.field textarea{
+  width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--ground);
+  border:2px solid transparent;border-radius:var(--radius-s);padding:.7em .8em;
+}
+.field textarea{min-height:150px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);background:#fff}
+.hp{display:none}
+.form-status{margin-top:14px;font-weight:600;min-height:1.6em}
+.form-status.ok{color:#11743F}
+.form-status.err{color:#B42318}
+
+/* Footer */
+.site-foot{background:#0F131B;color:#9AA3B0;padding:48px 0 32px;font-size:.92rem}
+.site-foot .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.site-foot h3{color:#fff;font-size:1rem;margin-bottom:12px}
+.site-foot ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.site-foot a{color:#C9D0DA;text-decoration:none}
+.site-foot a:hover{color:#fff;text-decoration:underline}
+.foot-base{grid-column:1/-1;border-top:1px solid #262D3A;padding-top:20px;margin-top:8px}
+
+/* WhatsApp */
+.wa{
+  position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:8px;
+  background:#1F8F4E;color:#fff;text-decoration:none;font-weight:650;
+  padding:12px 16px;border-radius:999px;box-shadow:0 8px 24px -8px rgba(0,0,0,.4);
+}
+.wa:hover{background:#18763F}
+
+/* Responsive */
+@media (max-width:960px){
+  .hero .wrap,.split,.contact .wrap,.section-head{grid-template-columns:1fr}
+  .section-head .lede{justify-self:start}
+  .hero{padding:48px 0 64px}
+  .slip{max-width:460px}
+  .steps{grid-template-columns:1fr 1fr;row-gap:48px}
+  .step:nth-child(2)::after{display:none}
+  .site-foot .wrap{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .menu-btn{display:block}
+  .nav{
+    display:none;position:absolute;top:68px;left:0;right:0;background:var(--panel);
+    flex-direction:column;align-items:stretch;gap:0;border-bottom:1px solid var(--line);padding:8px 24px 20px;
+  }
+  .nav.open{display:flex}
+  .nav a{padding:12px 0;border-bottom:1px solid var(--line)}
+  .nav .btn{margin-top:14px;border-bottom:0}
+  .band{padding:72px 0}
+  .cat-row{grid-template-columns:48px 1fr;gap:16px}
+  .cat-row > div:last-child{grid-column:2}
+  .cat-row h3{margin-top:4px}
+  .cat-icon{width:36px;height:36px}
+  .steps{grid-template-columns:1fr}
+  .step::after{display:none}
+  .commit{grid-template-columns:1fr}
+  .commit div,.commit div:nth-child(even){padding:24px 0;border-right:0}
+  .field-row{grid-template-columns:1fr}
+  form.quote{padding:24px}
+  .site-foot .wrap{grid-template-columns:1fr}
+  .wa span{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Modulo Ventures Limited, home">
+      <span class="brand-logo"><img src="logo.png" alt="Modulo Ventures" width="2000" height="2000"></span>
     </a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#supply">What we supply</a>
+      <a href="#process">How an order runs</a>
+      <a href="#company">Company</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn-primary" href="#contact">Request a quote</a>
+    </nav>
   </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <h1>ICT equipment for Kenyan offices, schools and public bodies.</h1>
+        <p class="lede">We supply computers, networking, power backup and security equipment through authorised channels, then install it and stay on to support it. One supplier from LPO to handover.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact">Request a quote</a>
+          <a class="btn btn-ghost" href="#supply">See what we supply</a>
+        </div>
+        <ul class="credentials" aria-label="Registration and compliance">
+          <li>AGPO certified</li>
+          <li>Youth-owned enterprise</li>
+          <li>KRA tax compliant</li>
+          <li>eTIMS invoicing</li>
+        </ul>
+      </div>
+
+      <aside class="slip" aria-labelledby="slip-title">
+        <div class="slip-head">
+          <h2 id="slip-title">Your list</h2>
+          <p>We'll price it</p>
+        </div>
+        <ul class="slip-list" id="slip-list"></ul>
+        <div class="slip-other">
+          <label for="slip-other">Anything else?</label>
+          <input id="slip-other" type="text" placeholder="e.g. 2 projectors, toner for HP M404">
+        </div>
+        <div class="slip-foot">
+          <span class="slip-count" id="slip-count" aria-live="polite">0 items</span>
+          <button class="btn" type="button" id="slip-send">Get a quote for this list</button>
+        </div>
+        <p class="slip-note">This copies your list into the quote form below. Nothing is sent until you submit it.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band band-white" id="supply" aria-labelledby="supply-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="supply-title">What we supply</h2>
+        <p class="lede">Business-grade equipment from recognised brands, bought through authorised distributors so warranties are honoured. We set up what we deliver.</p>
+      </div>
+      <ul class="catalogue">
+        <li class="cat-row">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1"/><path d="M2 19h20"/></svg>
+          <h3>Computers</h3>
+          <div><p>Laptops, desktops and monitors for staff, labs and front offices, imaged and ready to log in.</p><p class="items">Business lines from HP, Dell and Lenovo</p></div>
+        </li>
+        <li class="cat-row">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="14" width="18" height="6" rx="1"/><path d="M7 17h.01M11 17h.01M12 14V9M8 6a6 6 0 0 1 8 0M5.5 3.5a9.5 9.5 0 0 1 13 0"/></svg>
+          <h3>Networking</h3>
+          <div><p>Switches, routers, Wi-Fi access points, racks and structured cabling for offices, branches and campuses.</p><p class="items">Site survey, installation and labelling included</p></div>
+        </li>
+        <li class="cat-row">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="1"/><path d="M13 7l-3 5h4l-3 5"/></svg>
+          <h3>Power backup</h3>
+          <div><p>UPS units, voltage stabilisers, inverters and batteries sized to what they need to keep running.</p><p class="items">Load assessment before we recommend a unit</p></div>
+        </li>
+        <li class="cat-row">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7l12-3 1 4-12 3z"/><path d="M9 10l1 4h3M13 14v6M9 20h8"/></svg>
+          <h3>Security</h3>
+          <div><p>CCTV cameras, recorders and door access control, installed and handed over with user training.</p><p class="items">Remote viewing set up on your phones</p></div>
+        </li>
+        <li class="cat-row">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 8V3h10v5"/><rect x="3" y="8" width="18" height="9" rx="1"/><path d="M7 14h10v7H7z"/></svg>
+          <h3>Printing and peripherals</h3>
+          <div><p>Printers, scanners, projectors, toner and the everyday accessories offices run through.</p><p class="items">Genuine consumables only</p></div>
+        </li>
+        <li class="cat-row">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>
+          <h3>Setup and support</h3>
+          <div><p>Installation, configuration and annual maintenance contracts, whether or not you bought the equipment from us.</p><p class="items">Websites, domains and business email too</p></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-ink" id="process" aria-labelledby="process-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="process-title">How an order runs</h2>
+        <p class="lede">The same four steps whether it's one printer or a full lab.</p>
+      </div>
+      <ol class="steps">
+        <li class="step"><h3>Quote</h3><p>Send your list, RFQ or tender. You get an itemised quotation within 4 business hours.</p></li>
+        <li class="step"><h3>LPO</h3><p>Once your LPO arrives we order from authorised distributors and check every serial number with the manufacturer.</p></li>
+        <li class="step"><h3>Deliver and install</h3><p>We deliver with a delivery note and serial list, then install and test on site.</p></li>
+        <li class="step"><h3>Invoice and support</h3><p>You get an eTIMS invoice and a completion certificate to sign. We stay on call for warranty and support.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band" id="commitments" aria-labelledby="commit-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="commit-title">What you can hold us to</h2>
+        <p class="lede">Four promises that apply to every order, big or small.</p>
+      </div>
+      <dl class="commit">
+        <div><dt>A reply within 4 business hours</dt><dd>Every request gets a priced, itemised quote or a clear question back, the same working day.</dd></div>
+        <div><dt>No grey imports</dt><dd>We buy only through authorised channels and give you the serial list so you can check warranties yourself.</dd></div>
+        <div><dt>Paperwork that passes audit</dt><dd>Delivery notes, eTIMS invoices and completion certificates that match your LPO line by line.</dd></div>
+        <div><dt>One number to call</dt><dd>A named director handles your account from quote to handover, and after.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="band band-white" id="company" aria-labelledby="company-title">
+    <div class="wrap split">
+      <div>
+        <h2>Our documents</h2>
+        <p class="lede" style="margin-top:16px">Procurement teams can request our full supplier pack before they buy.</p>
+        <ul class="docs">
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Certificate of Incorporation and CR12</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>KRA PIN and Tax Compliance Certificate</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>AGPO Certificate (youth)</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>County Single Business Permit</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Company profile and directors' details</li>
+        </ul>
+        <button class="btn btn-ghost" type="button" id="docs-request">Request our supplier pack</button>
+      </div>
+      <div class="company">
+        <h2 id="company-title">Who we are</h2>
+        <p style="margin-top:16px">Modulo Ventures Limited is a youth-owned ICT supply company based in Nairobi. We started it because buying technology in Kenya is too often slow, unclear about where equipment comes from, and messy on paperwork.</p>
+        <p>We're a young company. We'd rather earn your first order with fast quotes, genuine equipment and clean documents than point to a track record we haven't built yet.</p>
+        <ul class="directors" aria-label="Directors">
+          <li>Peter Keith Karanja<span>Director</span></li>
+          <li>Denzel Murimi Kahuthia<span>Director</span></li>
+          <li>Khachina Mweha<span>Director</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-ink contact" id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div>
+        <h2 id="contact-title">Request a quote</h2>
+        <p class="lede" style="margin-top:16px">Send a list, an RFQ, or an LPO you need fulfilled. We'll reply within 4 business hours.</p>
+        <dl class="contact-details">
+          <div><dt>Email</dt><dd><a href="mailto:info@moduloventures.co.ke">info@moduloventures.co.ke</a></dd></div>
+          <div><dt>Phone and WhatsApp</dt><dd><a href="tel:+254729110469">0729 110 469</a></dd></div>
+          <div><dt>Office</dt><dd>Madaraka, Nairobi. Visits by appointment.</dd></div>
+          <div><dt>Hours</dt><dd>Monday to Friday, 8am to 6pm</dd></div>
+        </dl>
+      </div>
+
+      <form class="quote" id="quote-form" action="https://formspree.io/f/mlgwzboq" method="POST" novalidate>
+        <div class="field-row">
+          <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="f-org">Organisation <span class="hint">(optional)</span></label><input id="f-org" name="organisation" autocomplete="organization"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="f-phone">Phone <span class="hint">(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+        </div>
+        <div class="field">
+          <label for="f-type">What do you need?</label>
+          <select id="f-type" name="request_type">
+            <option>General quotation</option>
+            <option>I have an LPO to fulfil</option>
+            <option>Tender or RFQ</option>
+            <option>Supplier pack (documents)</option>
+            <option>Installation or support</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-msg">Items and details</label>
+          <textarea id="f-msg" name="message" placeholder="Quantities, models if you have them, delivery location and deadline."></textarea>
+        </div>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-primary" type="submit" id="f-submit">Send request</button>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div>
+      <h3>Modulo Ventures Limited</h3>
+      <p>Supply, installation and support of ICT equipment for organisations across Kenya.</p>
+    </div>
+    <div>
+      <h3>Pages</h3>
+      <ul>
+        <li><a href="#supply">What we supply</a></li>
+        <li><a href="#process">How an order runs</a></li>
+        <li><a href="#company">Company</a></li>
+        <li><a href="#contact">Request a quote</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <ul>
+        <li><a href="mailto:info@moduloventures.co.ke">info@moduloventures.co.ke</a></li>
+        <li><a href="tel:+254729110469">0729 110 469</a></li>
+        <li>Madaraka, Nairobi</li>
+      </ul>
+    </div>
+    <p class="foot-base">© <span id="year">2026</span> Modulo Ventures Limited. Registered in Kenya.</p>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/254729110469?text=Hello%20Modulo%20Ventures%2C%20I%27d%20like%20a%20quote%20for%3A%20" target="_blank" rel="noopener">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></svg>
+  <span>WhatsApp us</span>
+</a>
+
+<script>
+(function(){
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  var btn = document.querySelector('.menu-btn'), nav = document.getElementById('nav');
+  function setMenu(open){
+    nav.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  btn.addEventListener('click', function(){ setMenu(!nav.classList.contains('open')); });
+  nav.addEventListener('click', function(e){ if (e.target.tagName === 'A') setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+
+  // Requisition slip
+  var items = ['Laptops','Desktops','Monitors','Printers','UPS units','Wi-Fi access points','Network switches','CCTV cameras'];
+  var list = document.getElementById('slip-list');
+  items.forEach(function(name, i){
+    var id = 'q' + i;
+    var li = document.createElement('li');
+    li.className = 'slip-row';
+    li.innerHTML =
+      '<label for="'+id+'">'+name+'</label>' +
+      '<div class="stepper">' +
+        '<button type="button" data-step="-1" aria-label="One fewer '+name.toLowerCase()+'">−</button>' +
+        '<input id="'+id+'" type="number" inputmode="numeric" min="0" max="999" value="0" data-name="'+name+'">' +
+        '<button type="button" data-step="1" aria-label="One more '+name.toLowerCase()+'">+</button>' +
+      '</div>';
+    list.appendChild(li);
+  });
+  var countEl = document.getElementById('slip-count');
+  function inputs(){ return list.querySelectorAll('input'); }
+  function updateCount(){
+    var n = 0;
+    inputs().forEach(function(inp){ n += Math.max(0, parseInt(inp.value,10) || 0); });
+    countEl.textContent = n + (n === 1 ? ' item' : ' items');
+  }
+  list.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-step]'); if (!b) return;
+    var inp = b.parentNode.querySelector('input');
+    inp.value = Math.min(999, Math.max(0, (parseInt(inp.value,10) || 0) + parseInt(b.dataset.step,10)));
+    updateCount();
+  });
+  list.addEventListener('input', updateCount);
+
+  var msg = document.getElementById('f-msg'), type = document.getElementById('f-type');
+  document.getElementById('slip-send').addEventListener('click', function(){
+    var lines = [];
+    inputs().forEach(function(inp){
+      var q = parseInt(inp.value,10) || 0;
+      if (q > 0) lines.push('- ' + q + ' x ' + inp.dataset.name);
+    });
+    var other = document.getElementById('slip-other').value.trim();
+    if (other) lines.push('- ' + other);
+    if (lines.length){
+      msg.value = 'Please quote for:\n' + lines.join('\n') + '\n\nDelivery location:\nNeeded by:';
+      type.value = 'General quotation';
+    }
+    document.getElementById('contact').scrollIntoView();
+    document.getElementById('f-name').focus({preventScroll:true});
+  });
+
+  document.getElementById('docs-request').addEventListener('click', function(){
+    type.value = 'Supplier pack (documents)';
+    if (!msg.value) msg.value = 'Please send your supplier pack. We are a procurement team at:';
+    document.getElementById('contact').scrollIntoView();
+    document.getElementById('f-name').focus({preventScroll:true});
+  });
+
+  // Quote form (Formspree)
+  var form = document.getElementById('quote-form'), status = document.getElementById('form-status'), submit = document.getElementById('f-submit');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    status.className = 'form-status'; status.textContent = '';
+    var name = form.elements.name, email = form.elements.email;
+    if (!name.value.trim()){ status.className='form-status err'; status.textContent='Add your name so we know who to reply to.'; name.focus(); return; }
+    if (!email.value.trim() || !email.checkValidity()){ status.className='form-status err'; status.textContent='Add a valid email address so we can send your quote.'; email.focus(); return; }
+    submit.disabled = true; submit.textContent = 'Sending request…';
+    fetch(form.action, { method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' } })
+      .then(function(r){
+        if (!r.ok) throw new Error();
+        form.reset(); status.className = 'form-status ok';
+        status.textContent = 'Request sent. We’ll reply within 4 business hours.';
+      })
+      .catch(function(){
+        status.className = 'form-status err';
+        status.textContent = 'Your request didn’t go through. Email it to info@moduloventures.co.ke or WhatsApp 0729 110 469.';
+      })
+      .finally(function(){ submit.disabled = false; submit.textContent = 'Send request'; });
+  });
+})();
+</script>
 </body>
 </html>
